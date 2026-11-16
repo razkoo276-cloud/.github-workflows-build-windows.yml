@@ -1,4 +1,31 @@
-name: Build DualSense updater for Windows
+
+name: Build DualSense Windows EXE
 
 on:
   workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Download updater source
+        uses: actions/checkout@v4
+        with:
+          repository: nchie/dualsense-updater-rs
+          path: updater
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build Windows executable
+        working-directory: updater
+        run: cargo build --release
+
+      - name: Upload Windows executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: DualSense-Windows-EXE
+          path: updater/target/release/dualsense-updater.exe
+          if-no-files-found: error
