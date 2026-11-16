@@ -1,1 +1,4 @@
-.github/workflows/build-windows.yml
+name: Build DualSense updater for Windows
+
+on:
+  workflow_dispatch:
